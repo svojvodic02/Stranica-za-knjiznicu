@@ -1,0 +1,68 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #f2f4f8; font-family: Arial, sans-serif;">
+  <form (ngSubmit)="register()" #registerForm="ngForm"
+        style="background: #fff; padding: 30px 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+    
+    <h2 style="margin-bottom: 10px; color: #4a90e2;">Register</h2>
+    <p style="margin-bottom: 20px; color: #666;">Create your account by filling in the information below</p>
+
+    <div *ngIf="errorMessage" style="color: red; margin-bottom: 15px;">{{ errorMessage }}</div>
+
+    <label style="display: block; margin-bottom: 15px;">
+      <span style="display: block; font-weight: bold; margin-bottom: 5px;">Username</span>
+      <input type="text" [(ngModel)]="user.username" name="username" required minlength="4"
+             placeholder="@Username"
+             style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;" />
+      <div *ngIf="registerForm.controls['username']?.invalid && registerForm.controls['username']?.touched"
+           style="color: red; font-size: 0.9em;">
+        Username is required and must be at least 4 characters long.
+      </div>
+    </label>
+
+    <label style="display: block; margin-bottom: 15px;">
+      <span style="display: block; font-weight: bold; margin-bottom: 5px;">Password</span>
+      <input type="password" [(ngModel)]="user.password" name="password" required minlength="6"
+             placeholder="Password"
+             style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;" />
+      <div *ngIf="registerForm.controls['password']?.invalid && registerForm.controls['password']?.touched"
+           style="color: red; font-size: 0.9em;">
+        Password is required and must be at least 6 characters long.
+      </div>
+    </label>
+
+
+    <label style="display: block; margin-bottom: 15px;">
+      <span style="display: block; font-weight: bold; margin-bottom: 5px;">Name</span>
+      <input type="text" [(ngModel)]="user.name" name="name" required
+             placeholder="Name"
+             style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;" />
+      <div *ngIf="registerForm.controls['name']?.invalid && registerForm.controls['name']?.touched"
+           style="color: red; font-size: 0.9em;">
+        Name is required.
+      </div>
+    </label>
+
+
+    <label style="display: block; margin-bottom: 20px;">
+      <span style="display: block; font-weight: bold; margin-bottom: 5px;">Email</span>
+      <input type="email" [(ngModel)]="user.email" name="email" required
+             placeholder="Email"
+             style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;" />
+      <div *ngIf="registerForm.controls['email']?.invalid && registerForm.controls['email']?.touched"
+           style="color: red; font-size: 0.9em;">
+        A valid email is required.
+      </div>
+    </label>
+
+    <button type="submit"
+            [disabled]="registerForm.invalid"
+            style="width: 100%; padding: 10px; background-color: #4a90e2; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+      Register
+    </button>
+    <div style="text-align: center; margin-top: 15px;">
+      <a routerLink="/login"
+         style="color: #4a90e2; text-decoration: none; font-weight: bold;">
+        Already have an account? Log in
+      </a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,50 @@
+<div>
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: #4a90e2; color: white; font-family: Arial, sans-serif;">
+    <h2 style="margin: 0;">Home</h2>
+    
+    <div>
+      <button (click)="goToBooks()" style="margin-right: 10px; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #fff; color: #4a90e2; font-weight: bold;">Books</button>
+      <button (click)="logout()" style="padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #d9534f; color: white; font-weight: bold;">Logout</button>
+    </div>
+  </header>
+
+  <p style="margin: 15px 20px;">Number of posts: {{ broj_komentara }}</p>
+
+  <div *ngIf="adding" style="margin: 0 20px 20px 20px;">
+    <textarea [(ngModel)]="newPost.comment" placeholder="Enter your comment" style="width: 100%; height: 80px; padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+    <button (click)="add()" style="margin-top: 8px; padding: 10px 20px; background-color: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;">Post</button>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 0 20px;">
+    <div *ngFor="let post of posts; let i = index"
+         style="flex: 1 1 calc(25% - 20px); /* 4 per row with 20px gap */
+                background: #f9f9f9;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                min-width: 250px;">
+      
+      <div style="margin-bottom: 10px;">
+        <strong>{{ post.username }}</strong>
+        <span style="float: right; font-size: 12px; color: #888;">{{ post.timestamp | date: 'short' }}</span>
+      </div>
+
+      <div *ngIf="editingIndex === i" style="flex-grow: 1;">
+        <textarea [(ngModel)]="editingPost.comment" style="width: 100%; height: 80px; border-radius: 6px; border: 1px solid #ccc; padding: 8px;"></textarea>
+        <button (click)="doneEditing(i)" style="margin-top: 8px; padding: 8px 12px; background-color: #5cb85c; color: white; border: none; border-radius: 4px; cursor: pointer;">Save</button>
+      </div>
+
+      <div *ngIf="editingIndex !== i" style="flex-grow: 1;">
+        <p style="white-space: pre-wrap; word-break: break-word;">{{ post.comment }}</p>
+        <div style="margin-top: 10px;">
+          <button (click)="edit(i)" *ngIf="currentUsername === post.username" style="margin-right: 8px; padding: 6px 12px; background-color: #f0ad4e; border: none; border-radius: 4px; cursor: pointer; color: white;">Edit</button>
+          <button (click)="deletePost(i)" *ngIf="currentUsername === post.username" style="padding: 6px 12px; background-color: #d9534f; border: none; border-radius: 4px; cursor: pointer; color: white;">Delete</button>
+        </div>
+        <p style="font-size: 10px; color: #bbb; margin-top: 12px;">current: {{ currentUsername }}, post: {{ post.username }}</p>
+      </div>
+    </div>
+  </div>
+</div>

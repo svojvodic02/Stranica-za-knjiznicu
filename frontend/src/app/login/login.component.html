@@ -1,0 +1,43 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #f2f4f8; font-family: Arial, sans-serif;">
+  <form (ngSubmit)="login()" style="background: #fff; padding: 30px 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+    
+    <h2 style="margin-bottom: 10px; color: #4a90e2;">Log In</h2>
+    <p style="margin-bottom: 20px; color: #666;">Login here using your username and password</p>
+
+    <div *ngIf="errorMessage" style="color: red; margin-bottom: 15px;">{{ errorMessage }}</div>
+
+    <label style="display: block; margin-bottom: 15px;">
+      <span style="display: block; font-weight: bold; margin-bottom: 5px;">Username</span>
+      <input [(ngModel)]="credentials.username" name="username" type="text" placeholder="@Username" required
+             style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;" />
+    </label>
+
+   <label style="display: block; margin-bottom: 20px; position: relative;">
+  <span style="display: block; font-weight: bold; margin-bottom: 5px;">Password</span>
+  <input [type]="showPassword ? 'text' : 'password'"
+         [(ngModel)]="credentials.password"
+         name="password"
+         placeholder="Password"
+         required
+         style="width: 100%; padding: 10px 40px 10px 10px; border: 1px solid #ccc; border-radius: 6px;" />
+
+  <span (click)="togglePassword()"
+        style="position: absolute; top: 35px; right: 10px; cursor: pointer; color: #999;">
+    <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+  </span>
+</label>
+
+
+    <button type="submit"
+            style="width: 100%; padding: 10px; background-color: #4a90e2; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+      Log In
+    </button>
+
+    <div style="text-align: center; margin-top: 15px;">
+      <a routerLink="/register"
+         style="color: #4a90e2; text-decoration: none; font-weight: bold;">
+        Don't have an account? Sign up
+      </a>
+    </div>
+  </form>
+</div>

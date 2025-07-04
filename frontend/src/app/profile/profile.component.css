@@ -1,0 +1,28 @@
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.borrowed-book {
+  background: #f5f7fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 15px;
+  flex: 1 1 calc(33% - 20px);
+  min-width: 250px;
+  margin-bottom: 20px;
+}
+
+.book-title {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.book-author,
+.book-status {
+  margin: 0 0 6px 0;
+  color: #555;
+}

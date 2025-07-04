@@ -1,0 +1,93 @@
+<div>
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background-color: #4a90e2; color: white; font-family: Arial, sans-serif;">
+    <h2 style="margin: 0;">Home</h2>
+    
+    <div>
+
+        <button (click)="goToProfile()" style="padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #d9534f; color: white; font-weight: bold;">Profile</button>
+
+      <button (click)="goToBooks()" style="margin-right: 10px; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #fff; color: #4a90e2; font-weight: bold;">Books</button>
+
+      <button *ngIf="isAdmin" style="padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #d9534f; color: white; font-weight: bold;" routerLink="/admin-page">Admin Panel</button>
+
+      <button (click)="logout()" style="padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #d9534f; color: white; font-weight: bold;">Logout</button>
+
+      
+    </div>
+  </header>
+
+  <p style="margin: 15px 20px;">Number of books: {{ broj_komentara }}</p>
+
+  <div *ngIf="adding" style="margin: 0 20px 20px 20px;">
+    <textarea [(ngModel)]="newBook.title" placeholder="Enter book title" style="width: 100%; height: 40px; padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px;"></textarea>
+    <input [(ngModel)]="newBook.author" placeholder="Enter author name" style="width: 100%; padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px;" />
+    
+    <select [(ngModel)]="newBook.genreId" style="width: 100%; padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px;">
+      <option value="0" disabled selected>Select genre</option>
+      <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+    </select>
+
+    <label style="display: flex; align-items: center; margin-bottom: 10px;">
+      <input type="checkbox" [(ngModel)]="newBook.available" [ngModelOptions]="{standalone: true}" style="margin-right: 8px;">
+      Available
+    </label>
+
+    <button (click)="add()" style="padding: 10px 20px; background-color: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Book</button>
+  </div>
+
+  
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 0 20px;">
+    <div *ngFor="let book of books; let i = index"
+         style="flex: 1 1 calc(25% - 20px);
+                background: #f9f9f9;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                min-width: 250px;">
+      
+      <div style="margin-bottom: 10px;">
+        <strong>{{ book.username }}</strong>
+      </div>
+
+      <div *ngIf="editingIndex === i" style="flex-grow: 1;">
+        <textarea [(ngModel)]="editingBook.title" style="width: 100%; height: 40px; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px;"></textarea>
+        <input [(ngModel)]="editingBook.author" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px;" />
+
+        <select [(ngModel)]="editingBook.genreId" style="width: 100%; padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px;">
+          <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+        </select>
+
+        <label style="display: flex; align-items: center; margin-bottom: 10px;">
+          <input type="checkbox" [(ngModel)]="editingBook.available" [ngModelOptions]="{standalone: true}" style="margin-right: 8px;">
+          Available
+        </label>
+
+        <button (click)="doneEditing(i)" style="margin-right: 8px; padding: 8px 12px; background-color: #5cb85c; color: white; border: none; border-radius: 4px; cursor: pointer;">Save</button>
+        <button (click)="editingIndex = null" style="padding: 8px 12px; background-color: #ccc; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+      </div>
+
+      <div *ngIf="editingIndex !== i" style="flex-grow: 1;">
+        <h3 style="margin: 0 0 10px 0;">{{ book.title }}</h3>
+        <p style="margin: 0;">Author: {{ book.author }}</p>
+        <p style="margin: 0;">Genre: {{ getGenreName(book.genreId) }}</p>
+        <p style="margin: 0;">Status: <strong>{{ book.available ? 'Available' : 'Unavailable' }}</strong></p>
+
+        <div style="margin-top: 10px;">
+          <button (click)="edit(i)" *ngIf="currentUsername === book.username" style="margin-right: 8px; padding: 6px 12px; background-color: #f0ad4e; border: none; border-radius: 4px; cursor: pointer; color: white;">Edit</button>
+          <button (click)="deleteBook(i)" *ngIf="currentUsername === book.username" style="padding: 6px 12px; background-color: #d9534f; border: none; border-radius: 4px; cursor: pointer; color: white;">Delete</button>
+
+           <button
+    *ngIf="book.available && currentUsername !== book.username"
+    (click)="borrowBook(book.id)"
+    style="margin-left: 8px; padding: 6px 12px; background-color: #4a90e2; border: none; border-radius: 4px; cursor: pointer; color: white;"
+  >
+    Borrow
+  </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
